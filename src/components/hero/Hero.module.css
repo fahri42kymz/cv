@@ -1,0 +1,97 @@
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  isolation: isolate;
+  background: linear-gradient(
+    180deg,
+    #fbfaf7 0%,
+    #f6f5f1 55%,
+    #f0f0ed 100%
+  );
+}
+
+/* Subtle radial accent in top-right */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 40% 30% at 78% 8%,
+    rgba(113, 139, 255, 0.1),
+    transparent 55%
+  );
+  z-index: 1;
+}
+
+/* Fallback: centered portrait on warm background */
+.fallback {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: linear-gradient(180deg, #fbfaf7 0%, #f0f0ed 100%);
+  z-index: 2;
+}
+
+.fallbackPortrait {
+  width: min(540px, 70vw);
+  object-fit: contain;
+  object-position: bottom center;
+  filter: drop-shadow(0 40px 48px rgba(33, 39, 52, 0.18));
+}
+
+/* Scroll indicator */
+.scrollNote {
+  position: absolute;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #9a9da5;
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.scrollLine {
+  width: 32px;
+  height: 1px;
+  background: #c8cbd3;
+  overflow: hidden;
+  position: relative;
+}
+
+.scrollLine::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: #111218;
+  transform: translateX(-100%);
+  animation: scan 2.4s ease-in-out infinite;
+}
+
+@keyframes scan {
+  0%, 20% { transform: translateX(-100%); }
+  70%, 100% { transform: translateX(100%); }
+}
+
+@media (max-width: 600px) {
+  .scrollNote {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrollLine::after {
+    animation: none;
+  }
+}
