@@ -16,7 +16,7 @@ export interface TierConfig {
 
 export const TIER_CONFIGS: Record<QualityTier, TierConfig> = {
   high: {
-    dpr: Math.min(window.devicePixelRatio, 2),
+    dpr: window.devicePixelRatio,
     sphereSegments: 64,
     sphereCount: 12,
     useTransmission: true,
@@ -25,7 +25,7 @@ export const TIER_CONFIGS: Record<QualityTier, TierConfig> = {
     dragEnabled: true,
   },
   mid: {
-    dpr: Math.min(window.devicePixelRatio, 1.5),
+    dpr: window.devicePixelRatio,
     sphereSegments: 48,
     sphereCount: 12,
     useTransmission: true,
@@ -34,7 +34,7 @@ export const TIER_CONFIGS: Record<QualityTier, TierConfig> = {
     dragEnabled: true,
   },
   low: {
-    dpr: 1,
+    dpr: window.devicePixelRatio,
     sphereSegments: 24,
     sphereCount: 6,
     useTransmission: false,

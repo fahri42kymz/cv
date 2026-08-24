@@ -1,10 +1,11 @@
-import { useRef, useMemo } from 'react'
-import { useLoader, useFrame } from '@react-three/fiber'
+import { useRef, useMemo, useEffect } from 'react'
+import { useLoader, useFrame, useThree } from '@react-three/fiber'
 import {
   TextureLoader,
   MeshBasicMaterial,
   PlaneGeometry,
   SRGBColorSpace,
+  LinearFilter,
   type Mesh,
 } from 'three'
 
@@ -20,17 +21,21 @@ const PARALLAX_FACTOR = 0.003
 
 /**
  * The user's transparent portrait as a Three.js plane at the center depth layer.
- *
- * Key: texture.colorSpace MUST be SRGBColorSpace so Three.js applies correct
- * gamma conversion. Without this, colors appear washed-out / desaturated
- * because the renderer treats the data as linear light.
  */
 export function PortraitPlane({ parallaxRef }: PortraitPlaneProps) {
   const meshRef = useRef<Mesh>(null!)
+  const { gl } = useThree()
 
   // Load with explicit SRGB color space — preserves natural photo colors
   const texture = useLoader(TextureLoader, `${import.meta.env.BASE_URL}ben.png`)
-  texture.colorSpace = SRGBColorSpace
+  
+  useEffect(() => {
+    texture.colorSpace = SRGBColorSpace
+    texture.generateMipmaps = false
+    texture.minFilter = LinearFilter
+    texture.magFilter = LinearFilter
+    texture.needsUpdate = true
+  }, [texture])
 
   const baseY = -0.4
 
